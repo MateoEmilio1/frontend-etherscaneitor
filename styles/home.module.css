@@ -137,6 +137,7 @@
     border: 1px solid #2c2c2c;
     border-radius: 0.3rem;
     color: white;
+    
   }
   
   .inTxn {
@@ -165,4 +166,131 @@
     color: #96792a;
     border: 1px solid #4c3f1e;
     border-radius: 0.3rem;
+  }
+
+  @media only screen and (max-width: 1024px) {
+
+    .searchSection {
+      background-color: rgba(0, 255, 247, 0.378);
+      background-image: url("https://etherscan.io/images/svg/waves-light.svg");
+      height: 15rem;
+      padding: 1.5rem;
+      padding-top: 3rem;
+    }
+    
+    .searchSection > h3 {
+      color: whitesmoke;
+      padding-bottom: 1rem;
+      font-size: 1.3rem;
+      letter-spacing: 0.02rem;
+    }
+
+    .input_section {
+      display: flex;
+      align-items: center;
+      width: 560px;
+      height: 3rem;
+      border: 1px solid #191919;
+      border-radius: 0.3rem;
+      background-color: #111111;
+    }
+
+    .inputField {
+      width: 32rem;
+      color: #ffffff;
+      height: 2rem;
+      padding-left: 2rem;
+      border: none;
+      background-color: #111111;
+      font-size: 1rem;
+    }
+
+    .searchResults {
+      background-color: #111111;
+      margin: 1.5rem;
+      border: 1px solid #222222;
+      border-radius: 0.5rem;
+      box-shadow: 0rem 0 1.5rem #ffffff09;
+      padding: 1rem;
+    }
+    
+    .searchResults > p {
+      letter-spacing: 0.02rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #191919;
+      margin-bottom: 1rem;
+      color:#7cb3d7
+    }
+
+    
+
+  }
+
+  @media only screen and (max-width: 640px) {
+
+    .searchSection {
+      background-color: rgba(0, 255, 247, 0.378);
+      background-image: url("https://etherscan.io/images/svg/waves-light.svg");
+      height: 15rem;
+      padding: 1.5rem;
+      padding-top: 3rem;
+    }
+    
+    .searchSection > h3 {
+      color: whitesmoke;
+      padding-bottom: 1rem;
+      font-size: 1.3rem;
+      letter-spacing: 0.02rem;
+    }
+
+    .input_section {
+      display: flex;
+      align-items: center;
+      width: 320px;
+      height: 3rem;
+      border: 1px solid #191919;
+      border-radius: 0.3rem;
+      background-color: #111111;
+    }
+
+    .inputField {
+      width: 32rem;
+      color: #ffffff;
+      height: 2rem;
+      padding-left: 2rem;
+      border: none;
+      background-color: #111111;
+      font-size: 1rem;
+    }
+
+    .searchResults {
+      background-color: #111111;
+      margin: 1.5rem;
+      border: 1px solid #222222;
+      border-radius: 0.5rem;
+      box-shadow: 0rem 0 1.5rem #ffffff09;
+      padding: 1rem;
+    }
+    
+    .searchResults > p {
+      letter-spacing: 0.02rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #191919;
+      margin-bottom: 1rem;
+      color:#7cb3d7
+    }
+
+     
+    .inputField {
+      width: 17rem;
+      color: #ffffff;
+      height: 2rem;
+      padding-left: 2rem;
+      border: none;
+      background-color: #111111;
+      font-size: 1rem;
+    }
+    
+  
+
   }
