@@ -10,7 +10,7 @@ export default function Header() {
   const [ethPrice, setEthPrice] = useState("");
   useEffect(() => {
     const getEthPrice = async () => {
-      const response = await axios.get(`https://etherscaneitor.onrender.com/getethprice`, {});
+      const response = await axios.get(`https://backend-etherneitor.vercel.app/getethprice`, {});
       setEthPrice(response.data.usdPrice);
     };
     getEthPrice();
