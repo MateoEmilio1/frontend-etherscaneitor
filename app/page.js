@@ -4,6 +4,7 @@ import styles from "@/styles/home.module.css";
 
 import Header from "./components/header";
 import SearchComp from "./components/search.js";
+import SessionComp from "./components/sessionComp"
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
     </Head> */}
     <section className="main flex flex-col items-center min-h-screen bg-[#161616]">
       <Header />
+      <SessionComp/>
       <SearchComp />
     </section>
   </>
