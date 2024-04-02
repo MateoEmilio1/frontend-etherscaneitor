@@ -1,8 +1,10 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
-import {useRouter} from 'next/navigation'
-import {useState} from 'react'
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+
 
 function LoginPage() {
   const {
@@ -10,9 +12,9 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const router = useRouter()
-  const [error, setError] = useState(null)
-  
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
@@ -22,27 +24,31 @@ function LoginPage() {
       redirect: false,
     });
 
-    console.log(res)
+    console.log(res);
     if (res.error) {
-      setError(res.error)
+      setError(res.error);
     } else {
-      router.push('/dashboard')
-      router.refresh()
+      router.push("/dashboard");
+      router.refresh();
     }
   });
 
   return (
-    <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
-       
+    <div className="min-h-screen flex justify-center items-center bg-[#111111]">
       <form onSubmit={onSubmit} className="w-1/4">
-
         {error && (
-          <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
+          <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">
+            {error}
+          </p>
         )}
 
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
+        <h2 className="text-slate-200 font-bold text-lg mb-4">
+          Don&apos;t have an account?{" "}
+          <Link className="text-blue-500" href="http://localhost:3000/auth/register">Register</Link>
+        </h2>
 
-         {/* MAIL */}
+        {/* MAIL */}
         <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
           Email:
         </label>

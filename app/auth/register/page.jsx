@@ -1,6 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function RegisterPage() {
   const {
@@ -35,9 +36,13 @@ function RegisterPage() {
   console.log(errors);
 
   return (
-    <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
+    <div className="min-h-screen flex justify-center items-center bg-[#111111]">
       <form onSubmit={onSubmit} className="w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
+        <h2 className="text-slate-200 font-bold text-lg mb-4">
+          Already have an account?{" "}
+          <Link className="text-blue-500" href="http://localhost:3000/auth/login">Login</Link>
+        </h2>
         {/* USERNAME */}
         <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
           Username:
