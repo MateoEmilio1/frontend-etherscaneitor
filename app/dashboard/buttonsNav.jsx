@@ -3,7 +3,7 @@ import CustomButton from "../components/customBotton";
 
 export default function ButtonsNavigation() {
   return (
-    <section className="min-h-screen flex justify-center items-center bg-[#111111]">
+    <section className="pt-10 flex justify-center items-center bg-[#111111]">
       <div className="flex flex-wrap">
         <CustomButton href="/" buttonText="Home" />
 
