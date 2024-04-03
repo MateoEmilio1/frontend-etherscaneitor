@@ -14,4 +14,8 @@ pnpm dev
 bun dev
 ```
 
-Para tomar los datos se utilizo la API de moralis
+Para tomar los datos se utilizo la API de moralis.
+
+Utiliza Prisma para hacer el modelado de datos y Nextauth.js para el login, donde actualmente existe la opcion de loguearte con una cuenta creada en la misma pagina o loguearte con tu cuenta de google.
+
+Deployado en Railway.
