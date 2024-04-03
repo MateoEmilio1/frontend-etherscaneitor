@@ -37,11 +37,43 @@ function RegisterPage() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-[#111111]">
-      <form onSubmit={onSubmit} className="w-1/4">
-        <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
+      <form
+        onSubmit={onSubmit}
+        className="w-1/4 rounded-lg border border-white p-14"
+      >
+        <div className="flex">
+          <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
+          {/* Botón de retorno */}
+          <div className="flex justify-center mb-2 ml-4 ">
+            <Link
+              className="flex items-center text-white hover:text-blue-500"
+              href="/"
+            >
+              <svg
+                className="w-6 h-6 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                />
+              </svg>
+            </Link>
+          </div>
+        </div>
         <h2 className="text-slate-200 font-bold text-lg mb-4">
           Already have an account?{" "}
-          <Link className="text-blue-500" href="http://localhost:3000/auth/login">Login</Link>
+          <Link
+            className="text-blue-500"
+            href="http://localhost:3000/auth/login"
+          >
+            Login
+          </Link>
         </h2>
         {/* USERNAME */}
         <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
