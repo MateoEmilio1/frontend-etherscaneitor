@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 
-
 function LoginPage() {
   const {
     register,
@@ -45,7 +44,12 @@ function LoginPage() {
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
         <h2 className="text-slate-200 font-bold text-lg mb-4">
           Don&apos;t have an account?{" "}
-          <Link className="text-blue-500" href="http://localhost:3000/auth/register">Register</Link>
+          <Link
+            className="text-blue-500"
+            href="http://localhost:3000/auth/register"
+          >
+            Register
+          </Link>
         </h2>
 
         {/* MAIL */}
@@ -94,6 +98,20 @@ function LoginPage() {
           Login
         </button>
       </form>
+      {/* Sign in GOOGLE */}
+      <div>
+        <button
+          onClick={() =>
+            signIn("google", {
+              callbackUrl:
+                "https://frontend-etherscaneitor-production.up.railway.app/dashboard",
+            })
+          }
+          className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2"
+        >
+          Sign In
+        </button>
+      </div>
     </div>
   );
 }
