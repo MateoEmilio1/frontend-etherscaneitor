@@ -7,7 +7,7 @@ export default function ButtonsNavigation() {
       <div className="flex flex-wrap">
         <CustomButton href="/" buttonText="Home" />
 
-        <CustomButton href="/" onClick={() => signOut()} buttonText="Logout" />
+        <CustomButton href="/api/auth/signout" onClick={() => signOut()} buttonText="Logout" />
       </div>
     </section>
   );
