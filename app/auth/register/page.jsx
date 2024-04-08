@@ -39,18 +39,16 @@ function RegisterPage() {
     <div className="min-h-screen flex justify-center items-center bg-[#111111]">
       <form
         onSubmit={onSubmit}
-        className="w-1/4 rounded-lg border border-white p-14"
+        className="w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg border border-white p-6 sm:p-10"
       >
-        <div className="flex">
-          <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
-          {/* Botón de retorno */}
-          <div className="flex justify-center mb-2 ml-4 ">
-            <Link
-              className="flex items-center text-white hover:text-blue-500"
-              href="/"
-            >
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-slate-200 font-bold text-3xl sm:text-4xl">
+            Register
+          </h1>
+          <div className="flex items-center">
+            <Link href="/">
               <svg
-                className="w-6 h-6 mr-2"
+                className="w-6 h-6 mr-2 text-white hover:text-blue-500 cursor-pointer"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -68,14 +66,10 @@ function RegisterPage() {
         </div>
         <h2 className="text-slate-200 font-bold text-lg mb-4">
           Already have an account?{" "}
-          <Link
-            className="text-blue-500"
-            href="http://localhost:3000/auth/login"
-          >
-            Login
+          <Link href="/auth/login">
+            <span className="text-blue-500 cursor-pointer">Login</span>
           </Link>
         </h2>
-        {/* USERNAME */}
         <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
           Username:
         </label>
@@ -90,14 +84,11 @@ function RegisterPage() {
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="yourUser123"
         />
-
         {errors.username && (
           <span className="text-red-500 text-xs">
             {errors.username.message}
           </span>
         )}
-
-        {/* EMAIL */}
         <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
           Email:
         </label>
@@ -115,7 +106,6 @@ function RegisterPage() {
         {errors.email && (
           <span className="text-red-500 text-xs">{errors.email.message}</span>
         )}
-        {/* PASSWORD */}
         <label htmlFor="password" className="text-slate-500 mb-2 block text-sm">
           Password:
         </label>
@@ -135,12 +125,7 @@ function RegisterPage() {
             {errors.password.message}
           </span>
         )}
-
-        {/* CONFIRM PASSWORD */}
-        <label
-          htmlFor="confirmPassword"
-          className="text-slate-500 mb-2 block text-sm"
-        >
+        <label htmlFor="confirmPassword" className="text-slate-500 mb-2 block text-sm">
           Confirm Password:
         </label>
         <input
@@ -159,7 +144,6 @@ function RegisterPage() {
             {errors.confirmPassword.message}
           </span>
         )}
-
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Register
         </button>
