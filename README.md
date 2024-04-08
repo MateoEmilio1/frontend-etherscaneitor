@@ -14,8 +14,8 @@ pnpm dev
 bun dev
 ```
 
-Para tomar los datos se utilizo la API de moralis.
+To collect the data, the moralis API was used.
 
-Utiliza Prisma para hacer el modelado de datos y Nextauth.js para el login, donde actualmente existe la opcion de loguearte con una cuenta creada en la misma pagina o loguearte con tu cuenta de google.
+It uses Prisma to do the data modeling and Nextauth.js for the login, where currently there is the option to log in with an account created on the same page or log in with your Google account.
 
-Deployado en Railway.
+Deployed in Railway.
