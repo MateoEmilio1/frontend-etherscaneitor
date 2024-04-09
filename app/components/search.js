@@ -17,7 +17,7 @@ export default function Search() {
   const handleSearch = async () => {
     document.querySelector("#inputField").value = "";
 
-    const response = await axios.get(`https://etherscaneitor.onrender.com/address`, {
+    const response = await axios.get(`https://backend-etherneitor-production.up.railway.app/address`, {
       params: { address: searchInput },
     });
 
