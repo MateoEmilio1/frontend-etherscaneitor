@@ -8,7 +8,7 @@ export default async function Navbar() {
   console.log(session);
 
   return (
-    <div className="flex justify-between items-center bg-[#161616] text-white px-24 py-3">
+    <div className="flex justify-end items-end bg-[#161616] text-white px-24 py-3">
       <ul className="flex gap-x-2">
         {!session?.user ? (
           <>

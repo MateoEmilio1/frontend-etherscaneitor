@@ -1,6 +1,7 @@
 import styles from "@/styles/home.module.css";
 import moment from "moment";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function SearchResults(props) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +65,7 @@ export default function SearchResults(props) {
               return (
                 <tr className={styles.txn} key={txn.key}>
                   <td className="px-6 py-4 whitespace-nowrap text-blue-300">
-                    {txn.hash.slice(0, 12)}...
+                    <Link href={`/tx/${txn.hash}`}>{txn.hash.slice(0, 12)}...</Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={styles.transfer}>Transfer</span>
