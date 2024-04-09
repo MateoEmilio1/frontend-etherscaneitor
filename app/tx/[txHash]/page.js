@@ -17,7 +17,7 @@ export default function TransactionDetail() {
     console.log(hash);
     setTxHash(hash);
   }, []);
-  // TO DO: Hacer petición a Infura con la txnHash
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -62,15 +62,17 @@ export default function TransactionDetail() {
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <section className="min-h-screen bg-gray-100 flex justify-center items-center px-5">
-      <div className="bg-white rounded-lg shadow-lg p-8 mx-7 max-w-full">
+    <section className="min-h-screen bg-[#111111] flex justify-center items-center px-5">
+      <div className="bg-[#222222] rounded-lg shadow-lg p-8 mx-7 max-w-full">
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-2">Transaction Detail</h2>
+          <h2 className="text-lg text-blue-400 font-semibold mb-2">
+            Transaction Detail
+          </h2>
           <hr className="border-t border-gray-300 mb-4" />
           <div className=" gap-4 ">
             <div className=" mx-auto">
-              <p className="text-gray-600 ">Transaction Hash:</p>
-              <p className="break-all">
+              <p className="text-blue-300">Transaction Hash:</p>
+              <p className="break-all text-white">
                 {txHash}
                 <button
                   onClick={copyHashToClipboard}
@@ -91,13 +93,10 @@ export default function TransactionDetail() {
               {transactionData && (
                 <div>
                   <div>
-                    <p className="text-gray-600">Status:</p>
-                    <p className="font-medium">{transactionData.status}</p>{" "}
-                    {/* Cambia a transactionData.status */}
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Block Number:</p>
-                    <p className="font-medium">{transactionData.blockNumber}</p>
+                    <p className="text-blue-300">Block Number:</p>
+                    <p className="font-medium text-white">
+                      {transactionData.blockNumber}
+                    </p>
                   </div>
                 </div>
               )}
@@ -108,9 +107,9 @@ export default function TransactionDetail() {
         <hr className="border-t border-gray-300 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="text-gray-600">From:</p>
+            <p className="text-blue-300">From:</p>
             {transactionData && (
-              <p className="break-all">
+              <p className="break-all text-white">
                 {transactionData.from}
                 <button
                   onClick={copySenderToClipboard}
@@ -129,9 +128,9 @@ export default function TransactionDetail() {
             )}
           </div>
           <div>
-            <p className="text-gray-600">To:</p>
+            <p className="text-blue-300">To:</p>
             {transactionData && (
-              <p className="break-all">
+              <p className="break-all text-white">
                 {transactionData.to}
                 <button
                   onClick={copyReceiverToClipboard}
@@ -153,27 +152,31 @@ export default function TransactionDetail() {
         <hr className="border-t border-gray-300 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <p className="text-gray-600">Value:</p>
+            <p className="text-blue-300">Value:</p>
             {transactionData && (
-              <p className="font-medium">{transactionData.value}</p>
+              <p className="font-medium text-white">{transactionData.value}</p>
             )}
           </div>
           <div>
-            <p className="text-gray-600">Block Hash:</p>
+            <p className="text-blue-300">Block Hash:</p>
             {transactionData && (
-              <p className="break-all">{transactionData.blockHash}</p>
+              <p className="break-all text-white">
+                {transactionData.blockHash}
+              </p>
             )}
           </div>
           <div>
-            <p className="text-gray-600">Gas:</p>
+            <p className="text-blue-300">Gas:</p>
             {transactionData && (
-              <p className="font-medium">{transactionData.gas}</p>
+              <p className="font-medium text-white">{transactionData.gas}</p>
             )}
           </div>
           <div>
-            <p className="text-gray-600">Gas Price:</p>
+            <p className="text-blue-300">Gas Price:</p>
             {transactionData && (
-              <p className="font-medium">{transactionData.gasPrice}</p>
+              <p className="font-medium text-white">
+                {transactionData.gasPrice}
+              </p>
             )}
           </div>
         </div>
