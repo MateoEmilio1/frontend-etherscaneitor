@@ -1,34 +1,36 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { useSearchParams } from 'next/navigation'
-import { NextResponse } from "next/server";
+
+import { NextResponse  } from "next/server";
 import db from "@/libs/db";
 
-
-// TO DO: Hacer que ande
-export async function DELETE(request, context) {
+// Eliminar una Address de un User (ANDA)
+// http://localhost:3000/api/
+// users/[userId]/addresses/[addressId]?userId=[userId]&addressId=[addressId]
+export async function DELETE(request) {
   try {
-    const params = context.params;
-    // Extract the address ID from the request URL
-    //const userId = request.nextUrl.searchParams.get("userId"); // no se usa mas (con el query)
-    //const addresId = request.nextUrl.searchParams.get("addressId");
-    /* Solo se puede usar en Client Components
-    
-    const searchParams = useSearchParams();
+    // Obtener el ID de la dirección y el ID del usuario de los parámetros de la URL
+    const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get("userId");
     const addressId = searchParams.get("addressId");
-    console.log("userId: " , userId + "addresId: ", addressId); */
 
-    //const { userId } = request; // Obtener el ID del usuario de los parámetros de la solicitud
-    console.log(userId);
+    // Verificar si el usuario existe
+    const userFound = await db.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
 
-    if (!userId || !addressId) {
+    if (!userFound) {
       return NextResponse.json(
-        { message: "Missing required parameters: userId and addressId" },
-        { status: 400 }
+        {
+          message: "User not found",
+        },
+        {
+          status: 400,
+        }
       );
     }
-
-    // Check if the address exists for the user
+    // Verificar si la dirección pertenece al usuario
     const addressToDelete = await db.address.findUnique({
       where: {
         id: addressId,
@@ -38,23 +40,124 @@ export async function DELETE(request, context) {
 
     if (!addressToDelete) {
       return NextResponse.json(
-        { message: "Address not found" },
-        { status: 404 }
+        {
+          message: "Address not found for this user",
+        },
+        {
+          status: 404,
+        }
       );
     }
 
-    // Delete the address
+    // Eliminar la dirección
     await db.address.delete({
       where: {
         id: addressId,
       },
     });
 
-    return NextResponse.json({ message: "Address deleted successfully" });
+    return NextResponse.json(
+      {
+        message: "Address deleted successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error deleting address", error: error.message },
-      { status: 500 }
+      {
+        message: "Error deleting address",
+        error: error.message, // Incluir el mensaje de error en la respuesta
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+
+// Cambiar el name y/o address de una Address de un User (ANDA)
+export async function PUT(request) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const userId = searchParams.get("userId");
+    const addressId = searchParams.get("addressId");
+    const newName = searchParams.get("newName");
+    const newAddress = searchParams.get("newAddress");
+
+    // Verificar si el usuario existe
+    const userFound = await db.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json(
+        {
+          message: "User not found",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // Verificar si la dirección pertenece al usuario
+    const addressToUpdate = await db.address.findUnique({
+      where: {
+        id: addressId,
+        userId,
+      },
+    });
+
+    if (!addressToUpdate) {
+      return NextResponse.json(
+        {
+          message: "Address not found for this user",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    
+    const updateData = {};
+    if (newName) {
+      updateData.name = newName;
+    }
+    if (newAddress) {
+      updateData.address = newAddress; 
+    }
+
+   
+    await db.address.update({
+      where: {
+        id: addressId,
+      },
+      data: updateData,
+    });
+
+    return NextResponse.json(
+      {
+        message: "Address updated successfully",
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Error updating address",
+        error: error.message, 
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
