@@ -60,6 +60,7 @@ export default function TransactionDetail() {
   };
 
   const [showTooltip, setShowTooltip] = useState(false);
+  
 
   return (
     <section className="min-h-screen bg-[#111111] flex justify-center items-center px-5">

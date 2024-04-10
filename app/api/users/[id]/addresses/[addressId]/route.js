@@ -149,6 +149,29 @@ export async function PUT(request) {
         status: 200,
       }
     );
+/* 
+    ver si no lo tengo que modificar por esto:
+
+     // Actualizar la dirección y obtener los datos actualizados
+    const updatedAddress = await db.address.update({
+      where: {
+        id: addressId,
+      },
+      data: updateData,
+      include: {
+        user: true,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Address updated successfully",
+        data: updatedAddress, // Devolver los datos actualizados
+      },
+      {
+        status: 200,
+      }
+    ); */
   } catch (error) {
     return NextResponse.json(
       {
