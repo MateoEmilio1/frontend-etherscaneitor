@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import AddressEditor from "@/app/components/addressEditor";
+import AddressDeleter from "@/app/components/addressDeleter";
 
-export default function BuscoData({ email }) {
+export default function SettingsData({ email }) {
   const [userId, setUserId] = useState(null);
   const [addresses, setAddresses] = useState([]);
 
@@ -26,6 +27,7 @@ export default function BuscoData({ email }) {
         }
 
         if (addressesData) {
+          console.log(addressesData)
           setAddresses(addressesData);
         }
       } catch (error) {
@@ -36,59 +38,9 @@ export default function BuscoData({ email }) {
     fetchData();
   }, [email, userId]);
 
-  /* 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/users/?email=${email}`
-        );
-        const data = await response.json();
-        if (data && data.userId) {
-          setUserId(data.userId);
-        }
-      } catch (error) {
-        console.error("Error fetching user ID:", error);
-      }
-    };
-
-    fetchData();
-  }, [email]);
-
-  
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        if (userId) {
-          const response = await fetch(
-            `http://localhost:3000/api/users/${userId}/addresses/`
-          );
-          const data = await response.json();
-          setAddresses(data);
-        }
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      }
-    };
-
-    fetchAddresses();
-  }, [userId]); */
-
   return (
     <div className="text-white">
-      Email: {email}
-      <br />
-      User ID: {userId}
-      <br />
-      <br />
-      <div className="mb-7">
-        <Link
-          href="/dashboard/settings"
-          className="bg-blue-500 hover:bg-blue-700 text-white  font-bold  py-2 px-4 rounded"
-        >
-          Settings
-        </Link>
-      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {addresses.map((address, index) => (
           <div key={index} className="bg-white rounded-lg shadow-md p-4">
@@ -96,12 +48,15 @@ export default function BuscoData({ email }) {
               {address.name}
             </h2>
             <p className="text-gray-600">Dirección: {address.address}</p>
+            <AddressDeleter userId={userId} addressId={address.id} />
+            {/* Aca tiene que haber 2 botones, 1 de editar y 1 de eliminar la address */}
+
             {/*  <AddressEditor
               address={address}
               userId={userId}
               addressId={address.id}
               onSave={(updatedData) => handleAddressSave(index, updatedData)}
-            /> */}
+            />  */}
           </div>
         ))}
       </div>

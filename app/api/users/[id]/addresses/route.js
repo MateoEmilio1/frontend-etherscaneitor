@@ -64,8 +64,10 @@ export async function POST(request) {
 // Ruta para OBTENER todas las direcciones de un usuario (ANDA)
 export async function GET(request) {
   try {
-    console.log(request);
-    const { userId } = request; // Obtener el ID del usuario de los parámetros de la solicitud
+    
+    const searchParams = request.nextUrl.searchParams;
+    const userId = searchParams.get("userId");
+   
 
     const userAddresses = await db.address.findMany({
       where: {
