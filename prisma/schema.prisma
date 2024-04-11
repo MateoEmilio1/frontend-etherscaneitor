@@ -40,6 +40,14 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Address{
+  id          String  @id @default(cuid())
+  name        String  
+  address     String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+}
+
 model User {
   id            String    @id @default(cuid())
   username      String?   @unique
@@ -51,6 +59,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  addresses     Address[]
 }
 
 model VerificationToken {
