@@ -14,7 +14,9 @@ export default function BuscoData({ email }) {
         const [userDataResponse, addressesResponse] = await Promise.all([
           fetch(`http://localhost:3000/api/users/?email=${email}`),
           userId
-            ? fetch(`http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`)
+            ? fetch(
+                `http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`
+              )
             : null,
         ]);
 
@@ -78,8 +80,6 @@ export default function BuscoData({ email }) {
     <div className="text-white">
       Email: {email}
       <br />
-      User ID: {userId}
-      <br />
       <br />
       <div className="mb-7">
         <Link
@@ -95,13 +95,11 @@ export default function BuscoData({ email }) {
             <h2 className="text-black text-xl font-semibold mb-2">
               {address.name}
             </h2>
-            <p className="text-gray-600">Dirección: {address.address}</p>
-            {/*  <AddressEditor
-              address={address}
-              userId={userId}
-              addressId={address.id}
-              onSave={(updatedData) => handleAddressSave(index, updatedData)}
-            /> */}
+            {/* Tengo que crear el address detail */}
+            <Link href={`/address/${encodeURIComponent(address.address)}`}>
+              <p className="text-gray-600">Dirección:</p>
+              <p className="text-blue-500"> {address.address}</p>
+            </Link>
           </div>
         ))}
       </div>

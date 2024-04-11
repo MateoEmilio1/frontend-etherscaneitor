@@ -1,9 +1,10 @@
 // components/AddressDeleter.js
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const AddressDeleter = ({ userId, addressId }) => {
+
+const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
   
@@ -21,8 +22,10 @@ const AddressDeleter = ({ userId, addressId }) => {
         );
   
         if (response.ok) {
-          // Recargar la página después de borrar el objeto de dirección
-          router.reload();
+          // Ejecutar la función proporcionada por el padre para notificar la eliminación
+          onAddressDeleted();
+          // Redireccionar a la página de configuración después de borrar
+          router.push('/dashboard/settings');
         } else {
           console.error('Error deleting address:', response.statusText);
         }
@@ -34,15 +37,19 @@ const AddressDeleter = ({ userId, addressId }) => {
     };
   
     return (
-      <button
-        onClick={handleDelete}
-        className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${
-          isDeleting ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        disabled={isDeleting}
-      >
-        {isDeleting ? 'Deleting...' : 'Delete Address'}
-      </button>
+      <div>
+        <button
+          onClick={handleDelete}
+          className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${
+            isDeleting ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={isDeleting}
+        >
+          {isDeleting ? 'Deleting...' : 'Delete Address'}
+        </button>
+        {/* Agregar un botón de actualizar para actualizar manualmente la interfaz de usuario */}
+        <button onClick={onAddressDeleted}>Actualizar</button>
+      </div>
     );
   };
   
