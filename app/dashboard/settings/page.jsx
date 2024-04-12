@@ -42,7 +42,7 @@ export default async function SettingsPage() {
           </div>
        
         <div>
-          <SettingsData session={session} />
+          <SettingsData email={session.user.email} />
         </div>
         
       </div>
