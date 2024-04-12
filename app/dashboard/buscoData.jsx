@@ -12,7 +12,9 @@ export default function BuscoData({ email }) {
     const fetchData = async () => {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
-          fetch(`https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`),
+          fetch(
+            `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
+          ),
           userId
             ? fetch(
                 `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
@@ -30,6 +32,10 @@ export default function BuscoData({ email }) {
         if (addressesData) {
           setAddresses(addressesData);
         }
+
+        console.log("Email: ", email);
+        console.log("User data: ", userDataResponse);
+        console.log("User Id: ", userDataResponse.userId);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -38,43 +44,8 @@ export default function BuscoData({ email }) {
     fetchData();
   }, [email, userId]);
 
-  /* 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/users/?email=${email}`
-        );
-        const data = await response.json();
-        if (data && data.userId) {
-          setUserId(data.userId);
-        }
-      } catch (error) {
-        console.error("Error fetching user ID:", error);
-      }
-    };
+  //Tengo un problem
 
-    fetchData();
-  }, [email]);
-
-  
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        if (userId) {
-          const response = await fetch(
-            `http://localhost:3000/api/users/${userId}/addresses/`
-          );
-          const data = await response.json();
-          setAddresses(data);
-        }
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      }
-    };
-
-    fetchAddresses();
-  }, [userId]); */
   return (
     <div className="text-white">
       Email: {email}

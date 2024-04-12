@@ -1,7 +1,7 @@
-import ButtonsNavigation from "../buttonsNav";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import BuscoData from "../buscoData";
+//import { authOptions } from "@/libs/db";
 import Link from "next/link";
 import SettingsData from "./settingsData";
 
