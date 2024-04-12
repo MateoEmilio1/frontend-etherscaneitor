@@ -5,7 +5,8 @@ import CustomButton from "./customBotton";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  //Tendria que poder devolver el id tambien.
+  console.log("(Navbar) session: ",session);
 
   return (
     <div className="flex justify-end items-end bg-[#161616] text-white px-24 py-3">
