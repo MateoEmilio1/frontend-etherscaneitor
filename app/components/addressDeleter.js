@@ -15,7 +15,7 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
         console.log("userId : " , userId)
   
         const response = await fetch(
-          `http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
+          `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
           {
             method: 'DELETE',
           }

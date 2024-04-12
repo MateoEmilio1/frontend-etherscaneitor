@@ -10,7 +10,7 @@ const AddressEditor = ({ userId, addressId, onSave }) => {
       setIsSaving(true);
 
       const response = await fetch(
-        `http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
+        `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
         {
           method: 'PUT', // Cambia el método a PUT para editar
         }

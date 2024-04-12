@@ -12,10 +12,10 @@ export default function BuscoData({ email }) {
     const fetchData = async () => {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
-          fetch(`http://localhost:3000/api/users/?email=${email}`),
+          fetch(`https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`),
           userId
             ? fetch(
-                `http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`
+                `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
               )
             : null,
         ]);
