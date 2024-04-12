@@ -8,7 +8,7 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
       setIsCreating(true);
 
       const response = await fetch(
-        `http://localhost:3000/api/users/${userId}/addresses`,
+        `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses`,
         {
           method: 'POST',
           headers: {
