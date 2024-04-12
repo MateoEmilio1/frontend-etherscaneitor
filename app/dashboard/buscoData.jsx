@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function BuscoData({ session }) {
-  const [userId, setUserId] = useState(null);
+ 
   const [addresses, setAddresses] = useState([]);
 
   //Combine las 2 funciones en 1
