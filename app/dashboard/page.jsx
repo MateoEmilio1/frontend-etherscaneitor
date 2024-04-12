@@ -16,7 +16,7 @@ export default async function DashboardPage() {
           Welcome back {session.user.name}
         </h1>
         <div>
-          <BuscoData email={session.user.email} />
+          <BuscoData session={session} />
         </div>
         <ButtonsNavigation />
       </div>
