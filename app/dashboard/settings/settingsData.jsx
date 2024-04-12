@@ -4,18 +4,20 @@ import AddressEditor from "@/app/components/addressEditor";
 import AddressDeleter from "@/app/components/addressDeleter";
 import Link from "next/link";
 import AddressCreator from "@/app/components/addressCreator"; // Importa el componente NewAddressButton aquí
+
 export default function SettingsData({ session }) {
-  const [userId, setUserId] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Verifica que la sesión esté presente y que tenga un userId
-        if (session && session.userId) {
+        // Verifica que la sesión esté presente y que tenga un usuario asociado
+        if (session && session.user) {
+          const userId = session.userId;
+
           const addressesResponse = await fetch(
-            `https://frontend-etherscaneitor-production.up.railway.app/api/users/${session.userId}/addresses/?userId=${session.userId}`
+            `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
           );
           const addressesData = await addressesResponse.json();
 
@@ -43,7 +45,7 @@ export default function SettingsData({ session }) {
 
   return (
     <div className="text-white">
-      {session && (
+      {session && session.user && (
         <div>
           <div className="rounded-lg shadow-md p-4">
             <AddressCreator
