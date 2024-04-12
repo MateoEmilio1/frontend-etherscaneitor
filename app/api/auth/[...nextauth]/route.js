@@ -47,20 +47,20 @@ export const authOptions = {
   /*  
   docs: https://next-auth.js.org/configuration/callbacks
 
-  Probar asi ? preg profe
+  Probar asi ? preg profe 
 
-  El profile lo provee GoogleProvider
+  El profile lo provee GoogleProvider */
   
   callbacks: {
   async signIn({ user, account, profile, email }) {
     if (account?.provider === 'google') {
-      let existingUser = await prisma.user.findUnique({
+      let existingUser = await db.user.findUnique({
         where: { email: email }
       });
 
       if (!existingUser) {
         // Crear un nuevo usuario utilizando la información del perfil de Google
-        existingUser = await prisma.user.create({
+        existingUser = await db.user.create({
           data: {
             email: email,
             // Otros campos que quieras añadir desde el perfil de Google
@@ -74,7 +74,7 @@ export const authOptions = {
 
     return true; // Continuar con el proceso de inicio de sesión
   },
-}, */
+}, 
   pages: {
     signIn: "/auth/login",
   },
