@@ -16,6 +16,8 @@ export default function SettingsData({ email }) {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
           fetch(
+            // En local cambiar por: http://localhost:3000/
+        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
             `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
           ),
           userId
@@ -71,7 +73,7 @@ export default function SettingsData({ email }) {
             </h2>
             <Link href={`/address/${encodeURIComponent(address.address)}`}>
               <p className="text-gray-600">Dirección:</p>
-              <p className="text-blue-500"> {address.address}</p>
+              <p className="text-blue-500 break-all"> {address.address}</p>
             </Link>
             {/* Address Editor */}
             <AddressEditor

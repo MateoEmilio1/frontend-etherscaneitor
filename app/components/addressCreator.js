@@ -8,6 +8,8 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
       setIsCreating(true);
 
       const response = await fetch(
+        // En local cambiar por: http://localhost:3000/
+        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
         `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses`,
         {
           method: 'POST',

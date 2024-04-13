@@ -3,10 +3,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa6";
+import { FaSpinner } from "react-icons/fa";
+import Link from "next/link";
 
 export default function TransactionDetail() {
   const [txHash, setTxHash] = useState("");
   const [transactionData, setTransactionData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   //Obtengo el txHash del link
   useEffect(() => {
@@ -20,6 +23,7 @@ export default function TransactionDetail() {
 
   useEffect(() => {
     async function fetchData() {
+      if (!txHash) return;
       try {
         const response = await axios.post(
           "https://backend-etherneitor-production.up.railway.app/getTransactionByHash",
@@ -39,6 +43,8 @@ export default function TransactionDetail() {
         setTransactionData(response.data.result);
       } catch (error) {
         console.error("Error fetching transaction:", error);
+      } finally {
+        setIsLoading(false); // Se oculta el spinner cuando la solicitud se completa
       }
     }
     fetchData();
@@ -60,10 +66,17 @@ export default function TransactionDetail() {
   };
 
   const [showTooltip, setShowTooltip] = useState(false);
-  
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
+        <FaSpinner className="animate-spin text-4xl text-white" />
+      </div>
+    );
+  }
 
   return (
-    <section className="min-h-screen bg-[#111111] flex justify-center items-center px-5">
+    <section className="min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 flex justify-center items-center px-5">
       <div className="bg-[#222222] rounded-lg shadow-lg p-8 mx-7 max-w-full">
         <div className="mb-8">
           <h2 className="text-lg text-blue-400 font-semibold mb-2">
@@ -108,10 +121,14 @@ export default function TransactionDetail() {
         <hr className="border-t border-gray-300 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="text-blue-300">From:</p>
+            <p className="text-blue-400">From:</p>
             {transactionData && (
-              <p className="break-all text-white">
-                {transactionData.from}
+              <p className="break-all text-blue-300">
+                <Link
+                  href={`/address/${encodeURIComponent(transactionData.from)}`}
+                >
+                  {transactionData.from}
+                </Link>
                 <button
                   onClick={copySenderToClipboard}
                   className="relative rounded-md ml-5 p-1 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none"
@@ -129,10 +146,14 @@ export default function TransactionDetail() {
             )}
           </div>
           <div>
-            <p className="text-blue-300">To:</p>
+            <p className="text-blue-400">To:</p>
             {transactionData && (
-              <p className="break-all text-white">
-                {transactionData.to}
+              <p className="break-all text-blue-300">
+                <Link
+                  href={`/address/${encodeURIComponent(transactionData.to)}`}
+                >
+                  {transactionData.to}
+                </Link>
                 <button
                   onClick={copyReceiverToClipboard}
                   className="relative rounded-md ml-5 p-1 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none"
@@ -141,7 +162,7 @@ export default function TransactionDetail() {
                 >
                   {showTooltip && (
                     <span className="bg-black text-white py-1 px-2 w-44 rounded-lg text-xs absolute top-0 left-1/2 transform -translate-x-1/2 -mt-10 flex items-center">
-                      <span>&nbsp; Copy sender to clipboard</span>
+                      <span>&nbsp; Copy receiver to clipboard</span>
                     </span>
                   )}
                   <FaRegCopy />

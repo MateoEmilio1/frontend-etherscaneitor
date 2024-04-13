@@ -10,6 +10,9 @@ const AddressEditor = ({ userId, addressId, onSave }) => {
       setIsSaving(true);
 
       const response = await fetch(
+         // En local cambiar por: http://localhost:3000/
+        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
+
         `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
         {
           method: 'PUT', // Cambia el método a PUT para editar
