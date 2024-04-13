@@ -13,6 +13,8 @@ export default function BuscoData({ email }) {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
           fetch(
+             // En local cambiar por: http://localhost:3000/
+        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
             `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
           ),
           userId
@@ -68,7 +70,7 @@ export default function BuscoData({ email }) {
             {/* Tengo que crear el address detail */}
             <Link href={`/address/${encodeURIComponent(address.address)}`}>
               <p className="text-gray-600">Dirección:</p>
-              <p className="text-blue-500"> {address.address}</p>
+              <p className="text-blue-500 break-all"> {address.address}</p>
             </Link>
           </div>
         ))}
