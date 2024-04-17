@@ -18,6 +18,7 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
         // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
 
         `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
+        //`http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
         {
           method: "DELETE",
         }

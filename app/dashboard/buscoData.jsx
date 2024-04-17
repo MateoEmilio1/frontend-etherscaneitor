@@ -8,14 +8,13 @@ export default function BuscoData({ email }) {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true); // Nuevo estado para controlar la carga
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
+          // En local cambiar por: http://localhost:3000/
+          // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
           fetch(
-            // En local cambiar por: http://localhost:3000/
-            // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
             `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
           ),
           userId
@@ -23,6 +22,12 @@ export default function BuscoData({ email }) {
                 `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
               )
             : null,
+          /* fetch(`http://localhost:3000/api/users/?email=${email}`),
+          userId
+            ? fetch(
+                `http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`
+              )
+            : null, */
         ]);
 
         const userData = await userDataResponse.json();
@@ -50,15 +55,13 @@ export default function BuscoData({ email }) {
     fetchData();
   }, [email, userId]);
 
-
-
-  //TO DO: Que el loading pase directo a los dates, hay como un 
+  //TO DO: Que el loading pase directo a los dates, hay como un
   // bache entre el loading y cuando llegan los datos.
 
   //Solucion: setTimeout
   if (loading) {
     const placeholderAddresses = Array.from({ length: 4 });
-  
+
     return (
       <div className="text-white">
         Email: {email}
@@ -75,9 +78,7 @@ export default function BuscoData({ email }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {placeholderAddresses.map((address, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="my-2  rounded-full animate-pulse bg-blue-200 h-2 w-24">
-            
-              </h2>
+              <h2 className="my-2  rounded-full animate-pulse bg-blue-200 h-2 w-24"></h2>
               {/* Tengo que crear el address detail */}
               <div className="mt-4">
                 <p className=" rounded-full animate-pulse bg-blue-200 h-2 w-12"></p>
