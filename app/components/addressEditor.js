@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-const AddressEditor = ({ userId, addressId, onSave }) => {
-  const [newName, setNewName] = useState('');
-  const [newAddress, setNewAddress] = useState('');
+const AddressEditor = ({ userId, addressId, currentName, currentAddress, onSave }) => {
+  const [newName, setNewName] = useState(currentName);
+  const [newAddress, setNewAddress] = useState(currentAddress);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
@@ -14,6 +14,7 @@ const AddressEditor = ({ userId, addressId, onSave }) => {
         // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
 
         `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
+        //`http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
         {
           method: 'PUT', // Cambia el método a PUT para editar
         }

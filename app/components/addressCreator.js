@@ -11,6 +11,7 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
         // En local cambiar por: http://localhost:3000/
         // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
         `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses`,
+        //`http://localhost:3000/api/users/${userId}/addresses`,
         {
           method: 'POST',
           headers: {
