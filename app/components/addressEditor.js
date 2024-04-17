@@ -1,9 +1,15 @@
+"use client"
+
 import { useState } from 'react';
+import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
+
 
 const AddressEditor = ({ userId, addressId, currentName, currentAddress, onSave }) => {
   const [newName, setNewName] = useState(currentName);
   const [newAddress, setNewAddress] = useState(currentAddress);
   const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast()
 
   const handleSave = async () => {
     try {
@@ -27,9 +33,20 @@ const AddressEditor = ({ userId, addressId, currentName, currentAddress, onSave 
         setNewName('');
         setNewAddress('');
         // Puedes agregar lógica adicional aquí, como mostrar un mensaje de éxito
+        toast({
+          variant: "success",
+          description: "Your data has been updated.",
+        });
+        
       } else {
         console.error('Error updating address:', response.statusText);
         // Puedes manejar el error de acuerdo a tus necesidades
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
       }
     } catch (error) {
       console.error('Error updating address:', error);

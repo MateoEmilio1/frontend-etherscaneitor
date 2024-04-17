@@ -119,7 +119,8 @@ export default function LoginPage() {
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Login
         </button>
-        <div className="flex justify-center items-center my-4">
+        {/* Login de google pausado para PROD */}
+        {/* <div className="flex justify-center items-center my-4">
           <div className="border-t border-white w-1/4"></div>
           <span className="mx-2 text-white">OR</span>
           <div className="border-t border-white w-1/4"></div>
@@ -146,7 +147,7 @@ export default function LoginPage() {
             ></Image>
             Sign In with Google
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
