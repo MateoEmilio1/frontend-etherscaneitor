@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
 
 const NewAddressButton = ({ userId, onCreateSuccess }) => {
   const [isCreating, setIsCreating] = useState(false);
+  const { toast } = useToast()
 
   const handleCreate = async () => {
     try {
@@ -29,9 +32,19 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
         // Llamar a la función onCreateSuccess proporcionada por el padre para actualizar la UI
         onCreateSuccess();
         // Puedes agregar lógica adicional aquí, como mostrar un mensaje de éxito
+        toast({
+          variant: "success",
+          description: "Address created successfully",
+        });
       } else {
         console.error('Error creating address:', response.statusText);
         // Puedes manejar el error de acuerdo a tus necesidades
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
       }
     } catch (error) {
       console.error('Error creating address:', error);

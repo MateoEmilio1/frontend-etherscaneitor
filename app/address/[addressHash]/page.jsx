@@ -54,7 +54,16 @@ export default function AddressDetail() {
   }
 
   if (!addressData) {
-    return <p>Error fetching address data.</p>;
+    return (
+      <div className=" flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
+        <div className="bg-white mx-4 p-8 rounded-lg shadow-lg text-center">
+          <p className="text-2xl font-bold mb-4">Error fetching address data.</p>
+          <p>Please make sure the entered data is correct and try again.</p>
+          <p className="mt-4 text-sm">You can update your address in the settings of your dashboard.</p>
+        </div>
+      </div>
+    );
+    
   }
   //Logica Paginacion
 

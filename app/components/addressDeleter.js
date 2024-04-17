@@ -1,11 +1,14 @@
 // components/AddressDeleter.js
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
 
 const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
+  const { toast } = useToast()
 
   const handleDelete = async () => {
     try {
@@ -29,8 +32,18 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
         onAddressDeleted();
         // Redireccionar a la página de configuración después de borrar
         router.push("/dashboard/settings");
+        toast({
+          variant: "success",
+          description: "Your address has been deleted successfully.",
+        });
       } else {
         console.error("Error deleting address:", response.statusText);
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
       }
     } catch (error) {
       console.error("Error deleting address:", error);
