@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import Link from "next/link";
 import styles from "@/styles/home.module.css";
-import { FaSpinner } from 'react-icons/fa';
-
+import { FaSpinner, FaFilter } from "react-icons/fa";
 
 export default function AddressDetail() {
   const [address, setAddress] = useState("");
@@ -13,6 +12,12 @@ export default function AddressDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 25;
+  // Agregar estado para el tipo de transacción
+  const [transactionType, setTransactionType] = useState("All");
+
+  const handleTransactionTypeChange = (e) => {
+    setTransactionType(e.target.value);
+  };
 
   useEffect(() => {
     // Obtener la dirección de Ethereum de la URL usando una expresión regular
@@ -48,8 +53,8 @@ export default function AddressDetail() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
-      <FaSpinner className="animate-spin text-4xl text-white" />
-    </div>
+        <FaSpinner className="animate-spin text-4xl text-white" />
+      </div>
     );
   }
 
@@ -57,13 +62,16 @@ export default function AddressDetail() {
     return (
       <div className=" flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
         <div className="bg-white mx-4 p-8 rounded-lg shadow-lg text-center">
-          <p className="text-2xl font-bold mb-4">Error fetching address data.</p>
+          <p className="text-2xl font-bold mb-4">
+            Error fetching address data.
+          </p>
           <p>Please make sure the entered data is correct and try again.</p>
-          <p className="mt-4 text-sm">You can update your address in the settings of your dashboard.</p>
+          <p className="mt-4 text-sm">
+            You can update your address in the settings of your dashboard.
+          </p>
         </div>
       </div>
     );
-    
   }
   //Logica Paginacion
 
@@ -75,6 +83,17 @@ export default function AddressDetail() {
     indexOfFirstTransaction,
     indexOfLastTransaction
   );
+
+  //Filtro las transacciones
+  const filteredTransactions = currentTransactions.filter((txn) => {
+    if (transactionType === "All") {
+      return true; // Mostrar todas las transacciones si el tipo es "All"
+    } else if (transactionType === "IN") {
+      return txn.from_address.toLowerCase() !== address.toLowerCase();
+    } else {
+      return txn.from_address.toLowerCase() === address.toLowerCase();
+    }
+  });
 
   // Calcular el número total de páginas
   const totalPages = Math.ceil(addressData.result.length / transactionsPerPage);
@@ -88,14 +107,33 @@ export default function AddressDetail() {
     <div className=" bg-gradient-to-r from-blue-900 to-purple-900">
       <div className="bg-gradient-to-r from-blue-900 to-purple-900 p-8 rounded-lg shadow-lg text-center">
         <h1 className="text-4xl font-bold text-white mb-4">Address Detail</h1>
+        {/* Control de entrada para seleccionar el tipo de transacción */}
+
         <p className="text-lg text-white break-all">Address: {address}</p>
 
         {/* Renderizar información de todas las transacciones */}
         <section className={styles.searchResults}>
-          <p className={styles.amountOfTransactions}>
-            Latest 25 from a total of{" "}
-            <span className="text-white">{addressData.result.length}</span>{" "}
-            transactions
+          <p className="flex flex-col justify-center">
+            <p>
+              <span>Latest 25 from a total of</span>{" "}
+              <span className="text-white">{addressData.result.length}</span>{" "}
+              transactions
+            </p>
+
+            {/* Filtro */}
+            <p className="flex px-3 py-1 bg-gray-200 rounded-md focus:outline-none self-end">
+              <div className="pt-[3px]"><FaFilter />
+                </div>
+              <select
+                value={transactionType}
+                onChange={handleTransactionTypeChange}
+                className="bg-gray-200"
+              >
+                <option value="All">All</option>
+                <option value="IN">IN</option>
+                <option value="OUT">OUT</option>
+              </select>
+            </p>
           </p>
           <div className="overflow-x-auto">
             <table
@@ -131,7 +169,7 @@ export default function AddressDetail() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {currentTransactions.map((txn) => (
+                {filteredTransactions.map((txn) => (
                   <tr className={styles.txn} key={txn.key}>
                     <td className="px-6 py-4 whitespace-nowrap text-blue-300">
                       <Link href={`/tx/${txn.hash}`}>
