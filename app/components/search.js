@@ -5,6 +5,7 @@ import { Link } from "next"; // Asegúrate de importar el enlace correcto para t
 import axios from "axios";
 import styles from "@/styles/home.module.css";
 
+
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
 
@@ -49,6 +50,7 @@ export default function Search() {
             </svg>
           </button>
         </section>
+        
       </section>
     </section>
   );
