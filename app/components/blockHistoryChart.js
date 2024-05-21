@@ -19,7 +19,7 @@ export default function BlockHistoryChart() {
     tenDaysAgo.setDate(today.getDate() - 6);
 
     const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    yesterday.setDate(today.getDate() );
 
     setStartDate(tenDaysAgo);
     setEndDate(yesterday);
