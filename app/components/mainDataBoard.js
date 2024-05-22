@@ -20,12 +20,12 @@ export default function DataBoard() {
               <div className="mt-10">
                 <CardEthGasPrice />
               </div>
-              <Separator orientation="vertical" />
+              <Separator className="h-44 mt-44" orientation="vertical" />
               <div className="mt-16">
                 {" "}
                 <CardLastBlock />
               </div>
-              <Separator orientation="vertical" />
+              <Separator className="h-44 mt-44" orientation="vertical" />
               <div className="mt-20">
                 <CardNodesCount />
               </div>
