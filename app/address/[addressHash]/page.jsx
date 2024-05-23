@@ -121,19 +121,19 @@ export default function AddressDetail() {
             </p>
 
             {/* Filtro */}
-            <p className="flex px-3 py-1 bg-gray-200 rounded-md focus:outline-none self-end">
-              <div className="pt-[3px]"><FaFilter />
+            <div className="text-xs xl:text-xl flex xl:px-3 max-h-[36px] bg-gray-200 rounded-md focus:outline-none self-end">
+              <div className="pt-[12px] pl-1"><FaFilter />
                 </div>
               <select
                 value={transactionType}
                 onChange={handleTransactionTypeChange}
                 className="bg-gray-200"
               >
-                <option value="All">All</option>
-                <option value="IN">IN</option>
-                <option value="OUT">OUT</option>
+                <option value="All" className="text-xs md:text-md">All</option>
+                <option value="IN"  className="text-xs md:text-md">IN</option>
+                <option value="OUT" className="text-xs md:text-md">OUT</option>
               </select>
-            </p>
+            </div>
           </p>
           <div className="overflow-x-auto">
             <table
