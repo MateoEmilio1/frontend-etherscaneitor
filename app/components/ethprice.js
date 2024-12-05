@@ -5,7 +5,7 @@ import axios from "axios";
 
 //import Logo from "../public/assets/logo.png";
 
-export default function Header() {
+export default function EthPrice() {
   const [ethPrice, setEthPrice] = useState("");
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
 
@@ -28,26 +28,20 @@ export default function Header() {
   }, []);
 
   return (
-    <section className="w-full bg-[#111111]">
-      <section className="sm:pl-10 pl-20 flex items-center text-gray-400 h-12 text-sm border-b border-gray-800 px-12">
-        {isLoading ? (
-          <>
-            ETH Price:{" "}
-            <div className="ml-2 rounded-full animate-pulse bg-blue-200 h-2 w-12">
-              <span className=" h-2 bg-slate-200 rounded col-span-1 text-blue-300"></span>
-            </div>
-          </>
-        ) : (
-          <>
-            ETH Price: <span className="ml-2 text-blue-300">${ethPrice}</span>
-          </>
-        )}
-      </section>
-      {/*  <section className="flex items-center justify-between h-14 border-b border-gray-800 px-11">
-        <Image src={Logo} alt="Etherscan Logo" className="w-36 h-auto" />
-        Poner componente de login aca
-       
-      </section> */}
+
+    <section className="pl-5 sm:pl-10 w-full flex justify-start items-center text-gray-400 pt-2 h-12 text-sm  sm:px-12">
+      {isLoading ? (
+        <>
+          ETH Price:{" "}
+          <div className="ml-2 rounded-full animate-pulse bg-blue-200 h-2 w-12">
+            <span className=" h-2 bg-slate-200 rounded col-span-1 text-blue-300"></span>
+          </div>
+        </>
+      ) : (
+        <>
+          ETH Price: <span className="ml-2 text-blue-300">${ethPrice}</span>
+        </>
+      )}
     </section>
   );
 }
