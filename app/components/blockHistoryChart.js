@@ -2,7 +2,7 @@
 
 import { LineChart } from "@tremor/react";
 import { useState, useEffect } from "react";
-import BlocksData from "@/app/components/blockData";
+import BlockData from "@/app/components/blockData";
 import { FaSpinner, FaRegCopy } from "react-icons/fa";
 
 export default function BlockHistoryChart() {
@@ -130,7 +130,7 @@ export default function BlockHistoryChart() {
       </div>
       <div className="mt-12 text-white">
         {startDate && endDate && (
-          <BlocksData
+          <BlockData
             startDate={startDate}
             endDate={endDate}
             onDataFetch={handleDataFetch}

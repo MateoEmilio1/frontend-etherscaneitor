@@ -52,4 +52,4 @@ const BlockData = ({ startDate, endDate, onDataFetch }) => {
   return <></>;
 };
 
-export default BlocksData;
+export default BlockData;
