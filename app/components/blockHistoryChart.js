@@ -2,7 +2,7 @@
 
 import { LineChart } from "@tremor/react";
 import { useState, useEffect } from "react";
-import BlocksData from "@/app/components/blockNumber";
+import BlocksData from "@/app/components/blockData";
 import { FaSpinner, FaRegCopy } from "react-icons/fa";
 
 export default function BlockHistoryChart() {
@@ -19,7 +19,7 @@ export default function BlockHistoryChart() {
     tenDaysAgo.setDate(today.getDate() - 6);
 
     const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() );
+    yesterday.setDate(today.getDate());
 
     setStartDate(tenDaysAgo);
     setEndDate(yesterday);
