@@ -9,13 +9,10 @@ const BlockData = ({ startDate, endDate, onDataFetch }) => {
   const [blocksData, setBlocksData] = useState([]);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
-
         // Check if data has already been fetched
         if (blocksData.length > 4) {
-
           return; // Return early to avoid making additional requests
         }
 
@@ -25,18 +22,16 @@ const BlockData = ({ startDate, endDate, onDataFetch }) => {
         currentDate.setDate(currentDate.getDate() + 2);
         adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
 
-
-
-        while (currentDate < adjustedEndDate) {
-          const nextDate = new Date(currentDate);
-          nextDate.setDate(nextDate.getDate() + 1);
-          //console.log("(from BlockNumber)currentDate:", currentDate);
+        // Use a for loop for 1 to 4 iterations
+        for (let i = 0; i < 4; i++) {
+          if (currentDate >= adjustedEndDate) break; // Stop if the date exceeds the end date
 
           const block = await dater.getDate(currentDate.toISOString());
           blockPromises.push(block);
-          currentDate = nextDate;
-        }
 
+          // Move to the next day
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
 
         setBlocksData(blockPromises);
         onDataFetch(blockPromises); // Call the callback with the fetched data
@@ -47,7 +42,6 @@ const BlockData = ({ startDate, endDate, onDataFetch }) => {
 
     fetchData();
   }, [startDate, endDate, onDataFetch, blocksData]); // Add blocksData to the dependency array
-
 
   return <></>;
 };
