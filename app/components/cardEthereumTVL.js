@@ -1,30 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import useFetchTVLData from "../hooks/useFetchTVLData";
 
-export default function CardEthereumTVL() {
-  const [tvlData, setTvlData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchTVLData = async () => {
-      try {
-        const response = await axios.get("https://api.llama.fi/v2/chains");
-        const ethData = response.data.find(
-          (chain) => chain.name === "Ethereum"
-        );
-        setTvlData(ethData);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setError("Error fetching data");
-        setLoading(false);
-      }
-    };
-
-    fetchTVLData();
-  }, []);
+const CardEthereumTVL = () => {
+  const { tvlData, loading, error } = useFetchTVLData();
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat("en-US", {
@@ -58,7 +37,7 @@ export default function CardEthereumTVL() {
   return (
     <div className="max-w-sm mx-auto rounded-lg p-6">
       {tvlData ? (
-        <div className="text-white ">
+        <div className="text-white">
           <h2 className="text-4xl font-semibold text-center mb-4">
             Ethereum Total Value Locked
           </h2>
@@ -72,4 +51,6 @@ export default function CardEthereumTVL() {
       )}
     </div>
   );
-}
+};
+
+export default CardEthereumTVL;
