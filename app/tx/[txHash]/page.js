@@ -1,79 +1,52 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { FaRegCopy } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa";
 import { FaSpinner } from "react-icons/fa";
 import Link from "next/link";
+import useTxHashFromUrl from '../../hooks/useTxHashFromUrl';
+import useTransactionData from '../../hooks/useTransactionData';
+import useCopyToClipboard from '../../hooks/useCopyToClipboard';
+import { useHexToInt } from '../../hooks/useHexToInt';
+import useEthPrice from '../../hooks/useEthPrice';
 
 export default function TransactionDetail() {
-  const [txHash, setTxHash] = useState("");
-  const [transactionData, setTransactionData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const txHash = useTxHashFromUrl();
+  const { transactionData, isLoading } = useTransactionData(txHash);
+  const { copyToClipboard, showTooltip, setShowTooltip } = useCopyToClipboard();
 
-  //Obtengo el txHash del link
-  useEffect(() => {
-    const currentLink = window.location.href;
-    const regex = /\/tx\/(.+)/;
-    const match = currentLink.match(regex);
-    const hash = match ? match[1] : null;
-    console.log(hash);
-    setTxHash(hash);
-  }, []);
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!txHash) return;
-      try {
-        const response = await axios.post(
-          "https://backend-etherneitor-production.up.railway.app/getTransactionByHash",
-          {
-            jsonrpc: "2.0",
-            method: "eth_getTransactionByHash",
-            params: [txHash],
-            id: 1,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(response);
-        setTransactionData(response.data.result);
-      } catch (error) {
-        console.error("Error fetching transaction:", error);
-      } finally {
-        setIsLoading(false); // Se oculta el spinner cuando la solicitud se completa
-      }
-    }
-    fetchData();
-  }, [txHash]); // Agregar txHash como dependencia para que la solicitud se realice cuando cambie
+  const gasPrice = useHexToInt(transactionData?.gasPrice);
+  const value = useHexToInt(transactionData?.value);
+  const gas = useHexToInt(transactionData?.gas);
 
-  /* Boton copyHashToClipboard */
-  const copyHashToClipboard = () => {
-    navigator.clipboard.writeText(txHash);
+  const { ethPrice, isLoading: ethPriceLoading } = useEthPrice();
+
+
+  const convertGasPrice = (gasPriceInWei) => {
+    const gwei = gasPriceInWei / 1e9;  // Convertir de Wei a Gwei
+    const eth = gasPriceInWei / 1e18;  // Convertir de Wei a ETH
+    return {
+      gwei: gwei.toFixed(8), // Limitar a 8 decimales para Gwei
+      eth: eth.toFixed(18),  // Limitar a 18 decimales para ETH
+    };
   };
 
-  /* Boton copySenderToClipboard */
-  const copySenderToClipboard = () => {
-    navigator.clipboard.writeText(transactionData.from);
+  const calculateTransactionValue = (valueInWei) => {
+    const valueInEth = valueInWei / 1e18;  // Convertir de Wei a ETH
+    const valueInUSD = valueInEth * parseFloat(ethPrice);  // Multiplicar por el precio de ETH
+    return valueInUSD.toFixed(2);  // Limitar a 2 decimales para mostrar en USD
   };
 
-  /* Boton copyReceiverToClipboard */
-  const copyReceiverToClipboard = () => {
-    navigator.clipboard.writeText(transactionData.to);
-  };
-
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  if (isLoading) {
+  if (isLoading || ethPriceLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
         <FaSpinner className="animate-spin text-4xl text-white" />
       </div>
     );
   }
+
+  const gasPriceFormatted = convertGasPrice(gasPrice);
+  const valueInUSD = calculateTransactionValue(value);
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 flex justify-center items-center px-5">
@@ -83,13 +56,13 @@ export default function TransactionDetail() {
             Transaction Detail
           </h2>
           <hr className="border-t border-gray-300 mb-4" />
-          <div className=" gap-4 ">
-            <div className=" mx-auto">
+          <div className="gap-4">
+            <div className="mx-auto">
               <p className="text-blue-300">Transaction Hash:</p>
               <p className="break-all text-white">
                 {txHash}
                 <button
-                  onClick={copyHashToClipboard}
+                  onClick={() => copyToClipboard(txHash)}
                   className="relative rounded-md ml-5 p-1 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
@@ -103,7 +76,7 @@ export default function TransactionDetail() {
                 </button>
               </p>
             </div>
-            <div className=" gap-4 md:mt-4">
+            <div className="gap-4 md:mt-4">
               {transactionData && (
                 <div>
                   <div>
@@ -124,13 +97,11 @@ export default function TransactionDetail() {
             <p className="text-blue-400">From:</p>
             {transactionData && (
               <p className="break-all text-blue-300">
-                <Link
-                  href={`/address/${encodeURIComponent(transactionData.from)}`}
-                >
+                <Link href={`/address/${encodeURIComponent(transactionData.from)}`}>
                   {transactionData.from}
                 </Link>
                 <button
-                  onClick={copySenderToClipboard}
+                  onClick={() => copyToClipboard(transactionData.from)}
                   className="relative rounded-md ml-5 p-1 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
@@ -149,13 +120,11 @@ export default function TransactionDetail() {
             <p className="text-blue-400">To:</p>
             {transactionData && (
               <p className="break-all text-blue-300">
-                <Link
-                  href={`/address/${encodeURIComponent(transactionData.to)}`}
-                >
+                <Link href={`/address/${encodeURIComponent(transactionData.to)}`}>
                   {transactionData.to}
                 </Link>
                 <button
-                  onClick={copyReceiverToClipboard}
+                  onClick={() => copyToClipboard(transactionData.to)}
                   className="relative rounded-md ml-5 p-1 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
@@ -175,8 +144,8 @@ export default function TransactionDetail() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <p className="text-blue-300">Value:</p>
-            {transactionData && (
-              <p className="font-medium text-white">{transactionData.value}</p>
+            {value !== undefined && (
+              <p className="font-medium text-white">{valueInUSD} USD</p>
             )}
           </div>
           <div>
@@ -189,15 +158,15 @@ export default function TransactionDetail() {
           </div>
           <div>
             <p className="text-blue-300">Gas:</p>
-            {transactionData && (
-              <p className="font-medium text-white">{transactionData.gas}</p>
+            {gas !== undefined && (
+              <p className="font-medium text-white">{gas}</p>
             )}
           </div>
           <div>
             <p className="text-blue-300">Gas Price:</p>
-            {transactionData && (
+            {gasPriceFormatted && (
               <p className="font-medium text-white">
-                {transactionData.gasPrice}
+                {gasPriceFormatted.gwei} Gwei ({gasPriceFormatted.eth} ETH)
               </p>
             )}
           </div>
