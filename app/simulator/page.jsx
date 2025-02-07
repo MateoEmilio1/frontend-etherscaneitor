@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useEthPrice from "../hooks/useEthPrice";
@@ -17,10 +16,9 @@ export default function GasSimulator() {
   const [maxFee, setMaxFee] = useState(null);
   const { ethPrice } = useEthPrice();
 
-  
   useEffect(() => {
     if (baseFee === null || isNaN(baseFee)) {
-      console.error("Base Fee no disponible.");
+      console.error("Base Fee not available.");
       return;
     }
 
@@ -31,9 +29,8 @@ export default function GasSimulator() {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white p-4 space-y-4">
-     
       <div className="bg-gray-800 text-gray-300 px-4 py-2 rounded-md shadow-lg">
-        Base Fee Actual (Gas) : <strong>{baseFee.toFixed(2)} Gwei</strong>
+        Current Base Fee (Gas): <strong>{baseFee.toFixed(2)} Gwei</strong>
       </div>
 
       <Card className="w-full max-w-2xl shadow-lg bg-gray-800 text-white">
@@ -42,7 +39,7 @@ export default function GasSimulator() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-gray-400 text-sm">
-            Seleccione o ingrese el <strong>Priority Fee</strong> y las <strong>unidades de gas</strong> para calcular el costo total de la transacción.
+            Select or enter the <strong>Priority Fee</strong> and <strong>gas units</strong> to calculate the total cost of the transaction.
           </p>
 
           <div className="space-y-2">
@@ -57,7 +54,7 @@ export default function GasSimulator() {
               }}
             >
               <SelectTrigger className="bg-gray-700 text-white border-gray-600">
-                <SelectValue placeholder="Seleccione una opción" />
+                <SelectValue placeholder="Select an option" />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 text-white">
                 {Object.entries(PRIORITY_FEE_OPTIONS).map(([key, option]) => (
@@ -70,7 +67,7 @@ export default function GasSimulator() {
             {priorityFeeOption === "custom" && (
               <Input
                 type="number"
-                placeholder="Ingrese un valor personalizado (Gwei)"
+                placeholder="Enter a custom value (Gwei)"
                 value={priorityFee}
                 onChange={(e) => setPriorityFee(Number(e.target.value) || 0)}
                 className="bg-gray-700 text-white border-gray-600"
@@ -90,7 +87,7 @@ export default function GasSimulator() {
               }}
             >
               <SelectTrigger className="bg-gray-700 text-white border-gray-600">
-                <SelectValue placeholder="Seleccione una opción" />
+                <SelectValue placeholder="Select an option" />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 text-white">
                 {Object.entries(GAS_UNITS_OPTIONS).map(([key, option]) => (
@@ -103,7 +100,7 @@ export default function GasSimulator() {
             {gasUnitsOption === "custom" && (
               <Input
                 type="number"
-                placeholder="Ingrese un valor personalizado (Gas Units)"
+                placeholder="Enter a custom value (Gas Units)"
                 value={gasUnits}
                 onChange={(e) => setGasUnits(Number(e.target.value) || 0)}
                 className="bg-gray-700 text-white border-gray-600"
@@ -112,7 +109,7 @@ export default function GasSimulator() {
           </div>
 
           <div className="bg-gray-700 p-3 rounded-md text-sm text-gray-300">
-            <strong>Fórmula del Max Fee:</strong>
+            <strong>Max Fee Formula:</strong>
             <p className="mt-1">
               <code>Max Fee = (Base Fee + Priority Fee) * Gas Units</code>
             </p>

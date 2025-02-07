@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "next"; // Asegúrate de importar el enlace correcto para tu enrutador
-import axios from "axios";
-import { Card } from "@/components/ui/card"; // Importa el componente Card de Shadcn
-import { Button } from "@/components/ui/button"; // Importa el componente Button de Shadcn
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
@@ -21,7 +19,6 @@ export default function Search() {
   };
 
   const handleSimulatorClick = () => {
-    // Redirigir a la ruta /simulator
     window.location.href = "/simulator";
   };
 
@@ -29,7 +26,6 @@ export default function Search() {
 
     <section className="w-full bg-[rgba(0,255,247,0.378)] bg-[url('https://etherscan.io/images/svg/waves-light.svg')] mb-12 h-60 py-12 px-4 sm:px-6 md:px-8 lg:px-[11.5rem]">
       <div className="flex flex-col lg:flex-row gap-6 w-full">
-        {/* Sección de búsqueda */}
         <div className="flex-1">
           <h3 className="font-bold text-white text-lg sm:text-xl tracking-wide pb-4 text-center sm:text-left">
             The Ethereum Blockchain (Mini) Explorer
@@ -66,26 +62,23 @@ export default function Search() {
           </section>
         </div>
 
-        {/* Tarjeta del simulador de gas */}
         <Card
           className="flex-1 max-w-md bg-[#111111] border-[#191919] cursor-pointer hover:bg-[#1a1a1a] transition-colors relative p-6"
           onClick={handleSimulatorClick}
         >
-          {/* Botón "Nuevo" en la esquina superior derecha */}
           <Button
             size="sm"
             className="absolute top-2 right-2 bg-green-600 hover:bg-green-700 text-white text-xs"
           >
-            Nuevo
+            New!
           </Button>
 
-          {/* Contenido de la tarjeta */}
           <div className="flex flex-col items-center justify-center h-full text-center">
             <p className="text-white text-lg font-semibold mb-2">
-              Simulador de gas
+              Gas simulator
             </p>
             <p className="text-sm text-[#bbbbbb]">
-              Calcula cuánto gas vas a pagar por una transacción
+              Calculate how much gas you will pay for a transaction
             </p>
           </div>
         </Card>
