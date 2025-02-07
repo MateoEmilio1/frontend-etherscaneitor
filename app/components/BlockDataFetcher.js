@@ -1,35 +1,39 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import EthDater from "ethereum-block-by-date";
+import { BLOCKS_TO_FETCH } from "@/app/constants/config";
 
 const provider = new ethers.CloudflareProvider();
-const dater = new EthDater(provider);
 
-export default function BlockDataFetcher({ daysToFetch, onDataFetched }) {
+export default function BlockDataFetcher({ onDataFetched }) {
     const [hasFetchedData, setHasFetchedData] = useState(false);
 
     useEffect(() => {
         if (!hasFetchedData) {
             const fetchBlocksData = async () => {
                 try {
-                    const today = new Date();
-                    const startDate = new Date(today);
-                    startDate.setDate(today.getDate() - daysToFetch);
+                    // 1. Obtener el bloque más reciente
+                    const latestBlock = await provider.getBlock("latest");
+                    const latestBlockNumber = latestBlock.number;
 
-                    const blockPromises = [];
-                    let currentDate = new Date(startDate);
-                    const endDate = new Date(today);
-
-                    while (currentDate <= endDate) {
-                        const block = await dater.getDate(currentDate.toISOString());
-                        blockPromises.push({
-                            date: currentDate.toISOString(),
-                            block: block.block,
-                        });
-                        currentDate.setDate(currentDate.getDate() + 1);
+                    // 2. Calcular los números de bloque deseados
+                    const blockNumbers = [];
+                    for (let i = 0; i < BLOCKS_TO_FETCH; i++) {
+                        blockNumbers.push(latestBlockNumber - i);
                     }
 
-                    onDataFetched(blockPromises);
+                    // 3. Solicitar los bloques en paralelo (se agruparán en un solo batch)
+                    const blocks = await Promise.all(
+                        blockNumbers.map(num => provider.getBlock(num))
+                    );
+
+                    // Formateamos la data (por ejemplo, bloque, timestamp y fecha en ISO)
+                    const blockData = blocks.map(block => ({
+                        block: block.number,
+                        timestamp: block.timestamp,
+                        date: new Date(block.timestamp * 1000).toISOString(),
+                    }));
+
+                    onDataFetched(blockData);
                     setHasFetchedData(true);
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -38,7 +42,7 @@ export default function BlockDataFetcher({ daysToFetch, onDataFetched }) {
 
             fetchBlocksData();
         }
-    }, [daysToFetch, onDataFetched, hasFetchedData]);
+    }, [onDataFetched, hasFetchedData]);
 
     return null;
 }

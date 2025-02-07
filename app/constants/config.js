@@ -1,1 +1,1 @@
-export const DAYS_TO_FETCH = 4; 
+export const BLOCKS_TO_FETCH = 5; 
