@@ -6,7 +6,7 @@ import { CustomTooltip } from "@/lib/utils";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import BlockDataFetcher from "@/app/components/BlockDataFetcher";
 import ChartTitle from "@/app/components/ChartTitle";
-import { BLOCKS_TO_FETCH } from "@/app/constants/config";
+import { BLOCKS_TO_FETCH } from "@/app/constants/blocksToFetchData";
 
 export default function BlockHistoryChart() {
   const [blockData, setBlockData] = useState([]);
@@ -46,14 +46,14 @@ export default function BlockHistoryChart() {
           <div className="border-white rounded-xl">
             <ChartTitle>Last {BLOCKS_TO_FETCH} block numbers</ChartTitle>
             <LineChart
-              className="bg-dark-tremor-brand-faint pl-1"
+              className="bg-dark-tremor-brand-faint px-2 rounded-md"
               autoMinValue={true}
               colors={["emerald"]}
               data={formattedChartData}
-              index="time"            // Se utiliza "time" como índice
+              index="time"
               categories={["Block Number"]}
               yAxisLabel="Block Number"
-              xAxisLabel="Time"         // Etiqueta del eje X
+              xAxisLabel="Time"
               showGridLines={false}
               curveType="step"
               showAnimation={true}
