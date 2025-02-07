@@ -1,0 +1,1 @@
+export const BLOCKS_TO_FETCH = 5; 
