@@ -3,7 +3,7 @@
 import useEthPrice from "../hooks/useEthPrice";
 
 export default function Header() {
-  const { ethPrice, isLoading } = useEthPrice();  // Usamos el hook
+  const { ethPrice, isLoading } = useEthPrice();
 
   return (
     <div className="flex items-center gap-x-6 text-sm text-gray-300">

@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from 'react';
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
@@ -10,37 +8,30 @@ const AddressEditor = ({ userId, addressId, currentName, currentAddress, onSave 
   const [newAddress, setNewAddress] = useState(currentAddress);
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast()
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleSave = async () => {
     try {
       setIsSaving(true);
 
       const response = await fetch(
-         // En local cambiar por: http://localhost:3000/
-        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
-
-        `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
-        //`http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
+        `${API_BASE_URL}/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}&newName=${encodeURIComponent(newName)}&newAddress=${encodeURIComponent(newAddress)}`,
         {
-          method: 'PUT', // Cambia el método a PUT para editar
+          method: 'PUT',
         }
       );
 
       if (response.ok) {
-        // Llamar a la función onSave proporcionada por el padre para actualizar la UI
         onSave();
-        // Restablecer los valores de los campos a cadenas vacías después de guardar
         setNewName('');
         setNewAddress('');
-        // Puedes agregar lógica adicional aquí, como mostrar un mensaje de éxito
         toast({
           variant: "success",
           description: "Your data has been updated.",
         });
-        
+
       } else {
         console.error('Error updating address:', response.statusText);
-        // Puedes manejar el error de acuerdo a tus necesidades
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
@@ -74,9 +65,8 @@ const AddressEditor = ({ userId, addressId, currentName, currentAddress, onSave 
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className={`mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-          isSaving ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        className={`mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isSaving ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
       >
         {isSaving ? 'Saving...' : 'Save'}
       </button>

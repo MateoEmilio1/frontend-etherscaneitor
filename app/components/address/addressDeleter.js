@@ -1,5 +1,3 @@
-// components/AddressDeleter.js
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
@@ -9,6 +7,7 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast()
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleDelete = async () => {
     try {
@@ -17,20 +16,14 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
       console.log("userId : ", userId);
 
       const response = await fetch(
-        // En local cambiar por: http://localhost:3000/
-        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
-
-        `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
-        //`http://localhost:3000/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
+        `${API_BASE_URL}/api/users/${userId}/addresses/${addressId}?userId=${userId}&addressId=${addressId}`,
         {
           method: "DELETE",
         }
       );
 
       if (response.ok) {
-        // Ejecutar la función proporcionada por el padre para notificar la eliminación
         onAddressDeleted();
-        // Redireccionar a la página de configuración después de borrar
         router.push("/dashboard/settings");
         toast({
           variant: "success",
@@ -56,9 +49,8 @@ const AddressDeleter = ({ userId, addressId, onAddressDeleted }) => {
     <div>
       <button
         onClick={handleDelete}
-        className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${
-          isDeleting ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${isDeleting ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         disabled={isDeleting}
       >
         {isDeleting ? "Deleting..." : "Delete Address"}
