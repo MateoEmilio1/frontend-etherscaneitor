@@ -7,25 +7,16 @@ export default function BuscoData({ email }) {
   const [userId, setUserId] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true); 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [userDataResponse, addressesResponse] = await Promise.all([
-          // En local cambiar por: http://localhost:3000/
-          // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
-          /* fetch(
-            `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
-          ),
+          fetch(`${API_BASE_URL}/api/users/?email=${email}`),
           userId
             ? fetch(
-                `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
-              )
-            : null, */
-          fetch(`http://localhost:3000/api/users/?email=${email}`),
-          userId
-            ? fetch(
-                `http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`
+                `${API_BASE_URL}/api/users/${userId}/addresses/?userId=${userId}`
               )
             : null,
         ]);
@@ -43,7 +34,7 @@ export default function BuscoData({ email }) {
 
         setTimeout(() => {
           setLoading(false);
-        }, 1000); // Cambia el estado a false cuando los datos llegan
+        }, 1000); 
         console.log("Email: ", email);
         console.log("User data: ", userDataResponse);
         console.log("User Id: ", userDataResponse.userId);
@@ -53,7 +44,7 @@ export default function BuscoData({ email }) {
     };
 
     fetchData();
-  }, [email, userId]);
+  }, [email, userId, API_BASE_URL]);
 
   //TO DO: Que el loading pase directo a los dates, hay como un
   // bache entre el loading y cuando llegan los datos.
