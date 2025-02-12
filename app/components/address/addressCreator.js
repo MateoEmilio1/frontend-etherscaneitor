@@ -2,19 +2,17 @@ import { useState } from 'react';
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 
-const NewAddressButton = ({ userId, onCreateSuccess }) => {
+const AddressCreatorButton = ({ userId, onCreateSuccess }) => {
   const [isCreating, setIsCreating] = useState(false);
   const { toast } = useToast()
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleCreate = async () => {
     try {
       setIsCreating(true);
 
       const response = await fetch(
-        // En local cambiar por: http://localhost:3000/
-        // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
-        `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses`,
-        //`http://localhost:3000/api/users/${userId}/addresses`,
+        `${API_BASE_URL}/api/users/${userId}/addresses`,
         {
           method: 'POST',
           headers: {
@@ -29,16 +27,13 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
       );
 
       if (response.ok) {
-        // Llamar a la función onCreateSuccess proporcionada por el padre para actualizar la UI
         onCreateSuccess();
-        // Puedes agregar lógica adicional aquí, como mostrar un mensaje de éxito
         toast({
           variant: "success",
           description: "Address created successfully",
         });
       } else {
         console.error('Error creating address:', response.statusText);
-        // Puedes manejar el error de acuerdo a tus necesidades
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
@@ -57,13 +52,12 @@ const NewAddressButton = ({ userId, onCreateSuccess }) => {
     <button
       onClick={handleCreate}
       disabled={isCreating}
-      className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${
-        isCreating ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
+      className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${isCreating ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
     >
       {isCreating ? 'Creating...' : 'Create New Address'}
     </button>
   );
 };
 
-export default NewAddressButton;
+export default AddressCreatorButton;

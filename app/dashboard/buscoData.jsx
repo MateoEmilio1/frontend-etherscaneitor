@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function BuscoData({ email }) {
   const [userId, setUserId] = useState(null);
   const [addresses, setAddresses] = useState([]);
-  const [loading, setLoading] = useState(true); // Nuevo estado para controlar la carga
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,20 +14,20 @@ export default function BuscoData({ email }) {
         const [userDataResponse, addressesResponse] = await Promise.all([
           // En local cambiar por: http://localhost:3000/
           // En prod cambiar por: https://frontend-etherscaneitor-production.up.railway.app
-          fetch(
+          /* fetch(
             `https://frontend-etherscaneitor-production.up.railway.app/api/users/?email=${email}`
           ),
           userId
             ? fetch(
                 `https://frontend-etherscaneitor-production.up.railway.app/api/users/${userId}/addresses/?userId=${userId}`
               )
-            : null,
-          /* fetch(`http://localhost:3000/api/users/?email=${email}`),
+            : null, */
+          fetch(`http://localhost:3000/api/users/?email=${email}`),
           userId
             ? fetch(
                 `http://localhost:3000/api/users/${userId}/addresses/?userId=${userId}`
               )
-            : null, */
+            : null,
         ]);
 
         const userData = await userDataResponse.json();
