@@ -38,15 +38,15 @@ export default function BlockHistoryChart() {
   }));
 
   return (
-    <div className="justify-center items-center">
-      <div className="sm:my-0 md:my-0 w-[620px] h-[400px] rounded-xl overflow-hidden">
+    <div className="justify-center items-center mb-4">
+      <div className="sm:my-0 md:my-0 w-full h-auto rounded-xl overflow-hidden">
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="border-white rounded-xl">
+          <div className="border-white ">
             <ChartTitle>Last {BLOCKS_TO_FETCH} block numbers</ChartTitle>
             <LineChart
-              className="bg-dark-tremor-brand-faint px-2 rounded-md"
+              className="bg-dark-tremor-brand-faint px-2 rounded-b-xl"
               autoMinValue={true}
               colors={["emerald"]}
               data={formattedChartData}
