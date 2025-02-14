@@ -26,7 +26,7 @@ const EthGasPrice = () => {
   }
 
   return (
-    <div className="max-w-sm mx-auto xl:mt-32 2xl:mt-20 rounded-lg p-6 text-white text-center font-mono">
+    <div className="max-w-sm mx-auto xl:mt-32 2xl:mt-9 rounded-lg p-6 text-white text-center font-mono">
       <h2 className="text-2xl font-semibold mb-4">Ethereum Gas Price</h2>
       {gasPrice !== null ? (
         <p className="text-lg mb-2">

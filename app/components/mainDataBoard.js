@@ -7,54 +7,41 @@ import CardNodesCount from "./cardNodesCount";
 
 export default function DataBoard() {
   return (
-    <div className="pt-10 ">
-      {/* Desktop */}
-      <div className="hidden xl:block justify-center w-full  ">
-        <div className="bg-dark-tremor-brand-inverted shadow-xl rounded-xl mx-10 px-6 pt-8 flex">
-          <div>
-            <div className="space-y-1">
-              <CardEthereumTVL />
+    <div className="pt-10 flex justify-center">
+      <div className="bg-dark-tremor-brand-inverted shadow-xl rounded-xl mx-10 px-6 pt-8 mb-12 xl:pb-4 grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
+          <CardEthereumTVL />
+
+          <Separator className="my-4" />
+
+          <div className="flex flex-col md:flex-row items-stretch">
+            <div className="flex-1">
+              <CardEthGasPrice />
             </div>
-            <Separator className="my-4" />
-            <div className="flex h-5 items-center space-x-4 text-sm text-white">
-              <div className="mt-10">
-                <CardEthGasPrice />
-              </div>
-              <Separator className="h-44 mt-44" orientation="vertical" />
-              <div className="mt-16">
-                {" "}
-                <CardLastBlock />
-              </div>
-              <Separator className="h-44 mt-44" orientation="vertical" />
-              <div className="mt-20">
-                <CardNodesCount />
-              </div>
+
+            <div>
+              <Separator orientation="vertical" className="hidden md:block mx-4" />
+              <Separator orientation="horizontal" className="block md:hidden my-4" />
+            </div>
+
+            <div className="flex-1">
+              <CardLastBlock />
+            </div>
+
+            <div>
+              <Separator orientation="vertical" className="hidden md:block mx-4" />
+              <Separator orientation="horizontal" className="block md:hidden my-4" />
+            </div>
+
+            <div className="flex-1">
+              <CardNodesCount />
             </div>
           </div>
-          <Separator orientation="vertical" className="mx-4 " />
-          <BlockHistoryChart />
         </div>
-      </div>
-      {/* Responsive */}
-      <div className="xl:hidden flex-col flex items-center justify-center mx-auto ">
-        <div className="bg-dark-tremor-brand-inverted rounded-xl  px-6  mb-10 flex">
-          <div className="mx-auto">
-            <CardEthereumTVL />
 
-            <Separator className="my-4" />
-
-            <CardEthGasPrice />
-
-            <Separator className="my-4" />
-
-            <CardLastBlock />
-
-            <Separator className="my-4" />
-
-            <CardNodesCount />
-
-            <Separator className="my-4 " />
-            <BlockHistoryChart />
+        <div className="pt-10 flex justify-center items-center">
+          <div className="w-full max-w-full">
+            <BlockHistoryChart className="w-full h-full" />
           </div>
         </div>
       </div>
