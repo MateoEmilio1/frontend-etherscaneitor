@@ -29,18 +29,18 @@ export default function TransactionDetail() {
   }, [fetchEthPrice]);
 
   const convertGasPrice = (gasPriceInWei) => {
-    const gwei = gasPriceInWei / 1e9;  // Convertir de Wei a Gwei
-    const eth = gasPriceInWei / 1e18;  // Convertir de Wei a ETH
+    const gwei = gasPriceInWei / 1e9;
+    const eth = gasPriceInWei / 1e18;
     return {
-      gwei: gwei.toFixed(8), // Limitar a 8 decimales para Gwei
-      eth: eth.toFixed(18),  // Limitar a 18 decimales para ETH
+      gwei: gwei.toFixed(8),
+      eth: eth.toFixed(18),
     };
   };
 
   const calculateTransactionValue = (valueInWei) => {
-    const valueInEth = valueInWei / 1e18;  // Convertir de Wei a ETH
-    const valueInUSD = valueInEth * parseFloat(ethPrice);  // Multiplicar por el precio de ETH
-    return valueInUSD.toFixed(2);  // Limitar a 2 decimales para mostrar en USD
+    const valueInEth = valueInWei / 1e18;
+    const valueInUSD = valueInEth * parseFloat(ethPrice);
+    return valueInUSD.toFixed(2);
   };
 
   if (ethPriceLoading) {

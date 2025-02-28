@@ -24,10 +24,8 @@ const createEthPriceStore = () =>
         },
     }));
 
-// Creamos el contexto del store
 export const EthPriceStoreContext = createContext(null);
 
-// Provider que inyecta el store en el árbol de componentes
 export const EthPriceStoreProvider = ({ children }) => {
     const store = createEthPriceStore();
     return (
