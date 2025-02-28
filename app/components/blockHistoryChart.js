@@ -1,28 +1,21 @@
 "use client";
 
 import { LineChart } from "@tremor/react";
-import { useState } from "react";
+import { useBlockData } from "@/app/hooks/useBlockData";
 import { CustomTooltip } from "@/lib/utils";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
-import BlockDataFetcher from "@/app/components/BlockDataFetcher";
 import ChartTitle from "@/app/components/ChartTitle";
 import { BLOCKS_TO_FETCH } from "@/app/constants/blocksToFetchData";
 
 export default function BlockHistoryChart() {
-  const [blockData, setBlockData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleDataFetched = (data) => {
-    setBlockData(data);
-    setIsLoading(false);
-  };
+  const { blockData, isLoading } = useBlockData();
 
   const formatTime = (dateString) => {
     const options = {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      hour12: false
+      hour12: false,
     };
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", options).format(date);
@@ -65,9 +58,6 @@ export default function BlockHistoryChart() {
           </div>
         )}
       </div>
-      <BlockDataFetcher
-        onDataFetched={handleDataFetched}
-      />
     </div>
   );
 }

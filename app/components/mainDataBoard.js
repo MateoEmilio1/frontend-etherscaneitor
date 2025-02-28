@@ -4,6 +4,7 @@ import CardEthereumTVL from "./cardEthereumTVL";
 import CardEthGasPrice from "./cardEthGasPrice";
 import CardLastBlock from "./cardLastBlock";
 import CardNodesCount from "./cardNodesCount";
+import EthPriceChart from "./ethPriceChart";
 
 export default function DataBoard() {
   return (
@@ -41,7 +42,7 @@ export default function DataBoard() {
 
         <div className="pt-10 flex justify-center items-center">
           <div className="w-full max-w-full">
-            <BlockHistoryChart className="w-full h-full" />
+            <EthPriceChart className="w-full h-full" />
           </div>
         </div>
       </div>
