@@ -2,10 +2,20 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import useEthPrice from "../hooks/useEthPrice";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import useBaseFee from "../hooks/useBaseFee";
-import { PRIORITY_FEE_OPTIONS, GAS_UNITS_OPTIONS, INFO_CARDS } from "../constants/gasSimulatorData"; 
+import {
+  PRIORITY_FEE_OPTIONS,
+  GAS_UNITS_OPTIONS,
+  INFO_CARDS,
+} from "../constants/gasSimulatorData";
+import { useEthPriceContext } from "@/app/store/useEthPriceContext";
 
 export default function GasSimulator() {
   const baseFee = useBaseFee();
@@ -14,16 +24,21 @@ export default function GasSimulator() {
   const [gasUnits, setGasUnits] = useState(21000);
   const [gasUnitsOption, setGasUnitsOption] = useState("transfer");
   const [maxFee, setMaxFee] = useState(null);
-  const { ethPrice } = useEthPrice();
+  const ethPrice = useEthPriceContext((state) => state.ethPrice);
+  const isLoading = useEthPriceContext((state) => state.isLoading);
+  const fetchEthPrice = useEthPriceContext((state) => state.fetchEthPrice);
+
+  useEffect(() => {
+    fetchEthPrice();
+  }, [fetchEthPrice]);
 
   useEffect(() => {
     if (baseFee === null || isNaN(baseFee)) {
       console.error("Base Fee not available.");
       return;
     }
-
-    const maxFeeGwei = (baseFee + priorityFee) * gasUnits; 
-    const maxFeeEth = maxFeeGwei / 1e9; 
+    const maxFeeGwei = (baseFee + priorityFee) * gasUnits;
+    const maxFeeEth = maxFeeGwei / 1e9;
     setMaxFee(maxFeeEth);
   }, [baseFee, priorityFee, gasUnits]);
 
@@ -39,7 +54,9 @@ export default function GasSimulator() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-gray-400 text-sm">
-            Select or enter the <strong>Priority Fee</strong> and <strong>gas units</strong> to calculate the total cost of the transaction.
+            Select or enter the <strong>Priority Fee</strong> and{" "}
+            <strong>gas units</strong> to calculate the total cost of the
+            transaction.
           </p>
 
           <div className="space-y-2">
@@ -58,7 +75,11 @@ export default function GasSimulator() {
               </SelectTrigger>
               <SelectContent className="bg-gray-800 text-white">
                 {Object.entries(PRIORITY_FEE_OPTIONS).map(([key, option]) => (
-                  <SelectItem key={key} value={key} className="hover:bg-gray-700">
+                  <SelectItem
+                    key={key}
+                    value={key}
+                    className="hover:bg-gray-700"
+                  >
                     {option.label}
                   </SelectItem>
                 ))}
@@ -91,7 +112,11 @@ export default function GasSimulator() {
               </SelectTrigger>
               <SelectContent className="bg-gray-800 text-white">
                 {Object.entries(GAS_UNITS_OPTIONS).map(([key, option]) => (
-                  <SelectItem key={key} value={key} className="hover:bg-gray-700">
+                  <SelectItem
+                    key={key}
+                    value={key}
+                    className="hover:bg-gray-700"
+                  >
                     {option.label}
                   </SelectItem>
                 ))}
@@ -117,7 +142,11 @@ export default function GasSimulator() {
 
           {maxFee !== null && (
             <p className="text-gray-300">
-              <strong>Max Fee:</strong> {maxFee.toFixed(6)} ETH (~${ethPrice && !isNaN(ethPrice) ? (maxFee * ethPrice).toFixed(2) : "0.00"} USD)
+              <strong>Max Fee:</strong> {maxFee.toFixed(6)} ETH (~$
+              {ethPrice && !isNaN(ethPrice)
+                ? (maxFee * ethPrice).toFixed(2)
+                : "0.00"}{" "}
+              USD)
             </p>
           )}
         </CardContent>

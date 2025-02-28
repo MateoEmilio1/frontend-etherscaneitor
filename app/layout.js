@@ -5,6 +5,7 @@ import Script from "next/script";
 import Footer from "./components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "./components/sessionComp";
+import { EthPriceStoreProvider } from "@/app/store/ethPriceStore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,16 +28,18 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
+  
             gtag('config', 'G-X8CPGZR5T7');
           `}
         </Script>
       </head>
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
-        <Toaster />
+        <EthPriceStoreProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster />
+        </EthPriceStoreProvider>
       </body>
     </html>
   );

@@ -7,7 +7,8 @@ import useTxHashFromUrl from '../../hooks/useTxHashFromUrl';
 import useTransactionData from '../../hooks/useTransactionData';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 import { useHexToInt } from '../../hooks/useHexToInt';
-import useEthPrice from '../../hooks/useEthPrice';
+import { useEthPriceContext } from "@/app/store/useEthPriceContext";
+import { useEffect } from "react";
 
 export default function TransactionDetail() {
   const txHash = useTxHashFromUrl();
@@ -19,8 +20,13 @@ export default function TransactionDetail() {
   const value = useHexToInt(transactionData?.value);
   const gas = useHexToInt(transactionData?.gas);
 
-  const { ethPrice, isLoading: ethPriceLoading } = useEthPrice();
+  const ethPrice = useEthPriceContext((state) => state.ethPrice);
+  const ethPriceLoading = useEthPriceContext((state) => state.isLoading);
+  const fetchEthPrice = useEthPriceContext((state) => state.fetchEthPrice);
 
+  useEffect(() => {
+    fetchEthPrice();
+  }, [fetchEthPrice]);
 
   const convertGasPrice = (gasPriceInWei) => {
     const gwei = gasPriceInWei / 1e9;  // Convertir de Wei a Gwei
@@ -37,7 +43,7 @@ export default function TransactionDetail() {
     return valueInUSD.toFixed(2);  // Limitar a 2 decimales para mostrar en USD
   };
 
-  if (isLoading || ethPriceLoading) {
+  if (ethPriceLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
         <FaSpinner className="animate-spin text-4xl text-white" />

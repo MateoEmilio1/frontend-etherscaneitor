@@ -1,9 +1,15 @@
 "use client";
-
-import useEthPrice from "../hooks/useEthPrice";
+import { useEthPriceContext } from "@/app/store/useEthPriceContext";
+import { useEffect } from "react";
 
 export default function Header() {
-  const { ethPrice, isLoading } = useEthPrice();
+  const ethPrice = useEthPriceContext((state) => state.ethPrice);
+  const isLoading = useEthPriceContext((state) => state.isLoading);
+  const fetchEthPrice = useEthPriceContext((state) => state.fetchEthPrice);
+
+  useEffect(() => {
+    fetchEthPrice();
+  }, [fetchEthPrice]);
 
   return (
     <div className="flex items-center gap-x-6 text-sm text-gray-300">
