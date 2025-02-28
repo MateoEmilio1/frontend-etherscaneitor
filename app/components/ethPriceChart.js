@@ -26,7 +26,7 @@ export default function EthPriceChart() {
 
     const formattedChartData = sortedPriceData.map((entry) => ({
         time: formatTime(entry.date),
-        "Ethereum Price": entry.price,
+        "Ethereum Price": Number(entry.price.toFixed(1)),
     }));
 
     return (
