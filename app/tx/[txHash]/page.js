@@ -7,7 +7,8 @@ import useTxHashFromUrl from '../../hooks/useTxHashFromUrl';
 import useTransactionData from '../../hooks/useTransactionData';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
 import { useHexToInt } from '../../hooks/useHexToInt';
-import useEthPrice from '../../hooks/useEthPrice';
+import { useEthPriceContext } from "@/app/store/useEthPriceContext";
+import { useEffect } from "react";
 
 export default function TransactionDetail() {
   const txHash = useTxHashFromUrl();
@@ -19,25 +20,30 @@ export default function TransactionDetail() {
   const value = useHexToInt(transactionData?.value);
   const gas = useHexToInt(transactionData?.gas);
 
-  const { ethPrice, isLoading: ethPriceLoading } = useEthPrice();
+  const ethPrice = useEthPriceContext((state) => state.ethPrice);
+  const ethPriceLoading = useEthPriceContext((state) => state.isLoading);
+  const fetchEthPrice = useEthPriceContext((state) => state.fetchEthPrice);
 
+  useEffect(() => {
+    fetchEthPrice();
+  }, [fetchEthPrice]);
 
   const convertGasPrice = (gasPriceInWei) => {
-    const gwei = gasPriceInWei / 1e9;  // Convertir de Wei a Gwei
-    const eth = gasPriceInWei / 1e18;  // Convertir de Wei a ETH
+    const gwei = gasPriceInWei / 1e9;
+    const eth = gasPriceInWei / 1e18;
     return {
-      gwei: gwei.toFixed(8), // Limitar a 8 decimales para Gwei
-      eth: eth.toFixed(18),  // Limitar a 18 decimales para ETH
+      gwei: gwei.toFixed(8),
+      eth: eth.toFixed(18),
     };
   };
 
   const calculateTransactionValue = (valueInWei) => {
-    const valueInEth = valueInWei / 1e18;  // Convertir de Wei a ETH
-    const valueInUSD = valueInEth * parseFloat(ethPrice);  // Multiplicar por el precio de ETH
-    return valueInUSD.toFixed(2);  // Limitar a 2 decimales para mostrar en USD
+    const valueInEth = valueInWei / 1e18;
+    const valueInUSD = valueInEth * parseFloat(ethPrice);
+    return valueInUSD.toFixed(2);
   };
 
-  if (isLoading || ethPriceLoading) {
+  if (ethPriceLoading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-900 to-purple-900">
         <FaSpinner className="animate-spin text-4xl text-white" />
